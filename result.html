@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verification Result</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  {% if error %}
+    <div class="form-container">
+      <h3 class="error">{{ error }}</h3>
+      <a href="/">← Go Back</a>
+    </div>
+  {% else %}
+    <div class="result-container">
+      <!-- Left -->
+      <div class="result-left">
+        <h3 class="result">🧾 Resume Verification Result: {{ result }}</h3>
+        <h3 class="result">💡 Skill Check: {{ skill_match }}</h3>
+        <h3 class="result">🌐 GitHub Check: {{ github_result }}</h3>
+        <h3 class="result">👨‍💻 HackerRank Check: {{ hr_result }}</h3>
+        <a href="/">← Go Back</a>
+      </div>
+
+      <!-- Right -->
+      <div class="result-right">
+        <canvas id="skillChart"></canvas>
+
+        <h4>✅ Matched Skills:</h4>
+        <ul class="skill-list">
+          {% for skill in matched_skills %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+
+        <h4>❌ Unmatched Skills:</h4>
+        <ul class="skill-list">
+          {% for skill in unmatched_skills %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      const ctx = document.getElementById('skillChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Matched Skills', 'Unmatched Skills'],
+          datasets: [{
+            data: [{{ matched_skills | length }}, {{ unmatched_skills | length }}],
+            backgroundColor: ['rgba(75, 192, 192, 0.7)', 'rgba(255, 99, 132, 0.7)'],
+            borderColor: 'white',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          plugins: {
+            legend: { position: 'top' },
+            title: {
+              display: true,
+              text: 'Skill Match Breakdown'
+            }
+          }
+        }
+      });
+    </script>
+  {% endif %}
+</body>
+</html>

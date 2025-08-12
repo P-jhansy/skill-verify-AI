@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="form-container">
+    <h2>📊 Applicant Dashboard</h2>
+
+    <canvas id="summaryChart"></canvas>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Resume</th>
+          <th>Skills</th>
+          <th>GitHub</th>
+          <th>HackerRank</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in applicants %}
+        <tr>
+          <td>{{ a.result }}</td>
+          <td>{{ a.skill_match }} ({{ a.matched }}/{{ a.total_skills }})</td>
+          <td>{{ a.github_result }}</td>
+          <td>{{ a.hr_result }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="/">← Go to Home</a>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('summaryChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Genuine', 'Fake', 'Skilled'],
+        datasets: [{
+          data: [{{ genuine }}, {{ fake }}, {{ skill_match }}],
+          backgroundColor: ['#4caf50', '#f44336', '#2196f3']
+        }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Applicant Overview'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

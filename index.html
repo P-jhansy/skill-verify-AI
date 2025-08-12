@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Applicant Profile Verifier</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="form-container">
+    <h2>Applicant Profile Verifier</h2>
+    <form method="POST" action="/verify" enctype="multipart/form-data">
+      <label>Upload Resume (.txt):</label>
+      <input type="file" name="resume" required><br>
+
+      <label>GitHub Profile URL:</label>
+      <input type="url" name="github" required><br>
+
+      <label>HackerRank Profile URL (optional):</label>
+      <input type="url" name="hackerrank"><br>
+
+      <label>Required Skills (comma-separated):</label>
+      <input type="text" name="skills" placeholder="python, flask, sql" required><br>
+
+      <input type="submit" value="Verify">
+    </form>
+    <a href="/dashboard">📊 Admin Dashboard</a>
+  </div>
+</body>
+</html>
